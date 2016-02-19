@@ -1,12 +1,47 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
 exports.default = function (robot) {
-    //TODO: write a lunch recommendation script
+    robot.respond(/add (.*) to food list/i, function (res) {
+        var newOption = res.match[1],
+            oldOptions = robot.brain.get('foodOptions') || [],
+            newOptions = [],
+            response = newOption + ' is already in food list!';
+
+        if (oldOptions.indexOf(newOption) !== -1) {
+            newOptions = [].concat(_toConsumableArray(oldOptions), [newOption]);
+            robot.brain.set('foodOptions', newOptions);
+            response = 'Successfully added ' + newOption + ' into my brain!';
+        }
+        res.send(response);
+    });
+    robot.respond(/what are the foods you know/i, function (res) {
+        var foods = robot.brain.get('foodOptions') || [],
+            foodsStr = foods.reduce(function (result, place) {
+            return result + place + '\n';
+        }, ''),
+            response = 'I don\'t have any foods in my mind. Maybe you can teach me some?';
+
+        if (foods.length !== 0) {
+            response = 'I know: \n ' + foodsStr;
+        }
+        res.send(response);
+    });
+    robot.hear(/what to eat(\?)?$/i, function (res) {
+        var foodOptions = robot.brain.get('foodOptions') || [],
+            response = 'I don\'t have any foods in my mind. Maybe you can teach me some?';
+
+        if (foodOptions.length !== 0) {
+            response = 'How about ' + res.random(foodOptions) + '?';
+        }
+        res.reply(response);
+    });
 };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 ;
 module.exports = exports['default'];
