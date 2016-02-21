@@ -5,9 +5,8 @@ export default function(robot) {
             newOptions = [],
             response = `${newOption} is already in food list!`;
 
-        if (oldOptions.indexOf(newOption) !== -1) {
+        if (oldOptions.indexOf(newOption) === -1) {
             newOptions = [...oldOptions, newOption];
-            //TODO: Figure how to write data into redis storage
             robot.brain.set('foodOptions', newOptions);
             response = `Successfully added ${newOption} into my brain!`;
         }
@@ -20,6 +19,19 @@ export default function(robot) {
 
         if (foods.length !== 0) {
             response = `I know: \n ${foodsStr}`;
+        }
+        res.send(response);
+    });
+    robot.respond(/delete (.*) from food list/i, (res) => {
+        let foods = robot.brain.get('foodOptions') || [],
+            target = res.match[1],
+            targetIndex = foods.indexOf(target),
+            response = `${target} is not in my food list, nothing deleted.`;
+
+        if (targetIndex !== -1) {
+            robot.brain.set('foodOptions',
+                [...foods.slice(0, targetIndex), ...foods.slice(targetIndex + 1)]);
+            response = `${target} is deleted from food list`;
         }
         res.send(response);
     });

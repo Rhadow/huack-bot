@@ -11,7 +11,7 @@ exports.default = function (robot) {
             newOptions = [],
             response = newOption + ' is already in food list!';
 
-        if (oldOptions.indexOf(newOption) !== -1) {
+        if (oldOptions.indexOf(newOption) === -1) {
             newOptions = [].concat(_toConsumableArray(oldOptions), [newOption]);
             robot.brain.set('foodOptions', newOptions);
             response = 'Successfully added ' + newOption + ' into my brain!';
@@ -27,6 +27,18 @@ exports.default = function (robot) {
 
         if (foods.length !== 0) {
             response = 'I know: \n ' + foodsStr;
+        }
+        res.send(response);
+    });
+    robot.respond(/delete (.*) from food list/i, function (res) {
+        var foods = robot.brain.get('foodOptions') || [],
+            target = res.match[1],
+            targetIndex = foods.indexOf(target),
+            response = target + ' is not in my food list, nothing deleted.';
+
+        if (targetIndex !== -1) {
+            robot.brain.set('foodOptions', [].concat(_toConsumableArray(foods.slice(0, targetIndex)), _toConsumableArray(foods.slice(targetIndex + 1))));
+            response = target + ' is deleted from food list';
         }
         res.send(response);
     });
