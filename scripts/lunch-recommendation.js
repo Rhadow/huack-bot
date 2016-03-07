@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 exports.default = function (robot) {
     robot.respond(/add (.*) to food list/i, function (res) {
         var newOption = res.match[1],
@@ -12,7 +16,7 @@ exports.default = function (robot) {
             response = newOption + ' is already in food list!';
 
         if (oldOptions.indexOf(newOption) === -1) {
-            newOptions = [].concat(_toConsumableArray(oldOptions), [newOption]);
+            newOptions = [].concat((0, _toConsumableArray3.default)(oldOptions), [newOption]);
             robot.brain.set('foodOptions', newOptions);
             response = 'Successfully added ' + newOption + ' into my brain!';
         }
@@ -37,7 +41,7 @@ exports.default = function (robot) {
             response = target + ' is not in my food list, nothing deleted.';
 
         if (targetIndex !== -1) {
-            robot.brain.set('foodOptions', [].concat(_toConsumableArray(foods.slice(0, targetIndex)), _toConsumableArray(foods.slice(targetIndex + 1))));
+            robot.brain.set('foodOptions', [].concat((0, _toConsumableArray3.default)(foods.slice(0, targetIndex)), (0, _toConsumableArray3.default)(foods.slice(targetIndex + 1))));
             response = target + ' is deleted from food list';
         }
         res.send(response);
@@ -53,7 +57,7 @@ exports.default = function (robot) {
     });
 };
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 ;
 module.exports = exports['default'];
