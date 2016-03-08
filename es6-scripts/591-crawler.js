@@ -54,10 +54,10 @@ function parseData(htmlString) {
 
 async function crawl() {
     const INITIAL_URLS = [
-        // 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=3&firstRow=0&totalRows=1000',
+        'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=3&firstRow=0&totalRows=1000',
         'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=4&firstRow=0&totalRows=1000',
         'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=3&firstRow=0&totalRows=1000',
-        // 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=4&firstRow=0&totalRows=1000'
+        'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=4&firstRow=0&totalRows=1000'
     ];
     let urls = [],
         generatedTempUrls = [],
@@ -94,7 +94,7 @@ export default function(robot) {
         res.send('cleared');
     });
     robot.hear(/crawl 591/i, async (res) => {
-        new CronJob('30 */1 * * * *', async () => {
+        new CronJob('30 */20 * * * *', async () => {
             let newData = await crawl(),
                 oldData = robot.brain.get('591-data') || [],
                 response = '',
