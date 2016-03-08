@@ -94,7 +94,7 @@ var crawl = function () {
             while (1) {
                 switch (_context3.prev = _context3.next) {
                     case 0:
-                        INITIAL_URLS = ['http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=3&firstRow=0&totalRows=1000', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=4&firstRow=0&totalRows=1000', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=3&firstRow=0&totalRows=1000', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=4&firstRow=0&totalRows=1000'];
+                        INITIAL_URLS = ['http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&orderType=desc&shType=list&rentprice=0,25000&area=10,&firstRow=20&totalRows=1500', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&orderType=desc&shType=list&rentprice=0,25000&area=10,&firstRow=20&totalRows=1500'];
                         urls = [], generatedTempUrls = [], tempData = undefined, crawledHtml = [], data = [];
                         i = 0;
 
@@ -181,17 +181,27 @@ var crawl = function () {
 exports.default = function (robot) {
     var _this2 = this;
 
+    var job = {};
     robot.respond(/clear 591/, function (res) {
         robot.brain.set('591-data', []);
         res.send('cleared');
     });
-    robot.hear(/crawl 591/i, function () {
+    robot.respond(/stop 591/, function (res) {
+        if (!job.stop) {
+            res.send('No crawling is scheduled');
+        } else {
+            job.stop();
+            job = {};
+            res.send('Stopped crawling');
+        }
+    });
+    robot.respond(/crawl 591/i, function () {
         var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(res) {
             return _regenerator2.default.wrap(function _callee5$(_context5) {
                 while (1) {
                     switch (_context5.prev = _context5.next) {
                         case 0:
-                            new _cron.CronJob('30 */20 * * * *', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+                            job = new _cron.CronJob('30 */20 * * * *', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
                                 var newData, oldData, response, isDataExisted, dataToReport;
                                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                                     while (1) {
@@ -224,7 +234,7 @@ exports.default = function (robot) {
                                                             return data.title + ' \n ' + data.href + '\n=======================\n';
                                                         }).join('');
                                                         res.send(response);
-                                                        robot.brain.set('591-data', newData);
+                                                        robot.brain.set('591-data', oldData.concat(dataToReport));
                                                     }
                                                 }
 
