@@ -94,11 +94,7 @@ var crawl = function () {
             while (1) {
                 switch (_context3.prev = _context3.next) {
                     case 0:
-                        INITIAL_URLS = [
-                        // 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=3&firstRow=0&totalRows=1000',
-                        'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=4&firstRow=0&totalRows=1000', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=3&firstRow=0&totalRows=1000'];
-
-                        // 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=4&firstRow=0&totalRows=1000'
+                        INITIAL_URLS = ['http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=3&firstRow=0&totalRows=1000', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=4&firstRow=0&totalRows=1000', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=3&firstRow=0&totalRows=1000', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=4&firstRow=0&totalRows=1000'];
                         urls = [], generatedTempUrls = [], tempData = undefined, crawledHtml = [], data = [];
                         i = 0;
 
@@ -195,7 +191,7 @@ exports.default = function (robot) {
                 while (1) {
                     switch (_context5.prev = _context5.next) {
                         case 0:
-                            new _cron.CronJob('30 */1 * * * *', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+                            new _cron.CronJob('30 */20 * * * *', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
                                 var newData, oldData, response, isDataExisted, dataToReport;
                                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                                     while (1) {
