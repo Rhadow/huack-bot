@@ -9,6 +9,7 @@
   },
   "description": "A simple robot for daily routine tasks and fun ",
   "dependencies": {
+    "babel-runtime": "^6.6.1",
     "cheerio": "^0.20.0",
     "cron": "^1.1.0",
     "hubot": "^2.18.0",

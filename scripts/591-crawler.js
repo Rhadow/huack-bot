@@ -19,7 +19,7 @@ var fetchUrl = function () {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
-                        res = void 0, data = void 0;
+                        res = undefined, data = undefined;
                         _context.prev = 1;
                         _context.next = 4;
                         return (0, _nodeFetch2.default)(url);
@@ -73,7 +73,7 @@ var generateUrls = function () {
 
                     case 6:
                         totalRows = data.count;
-                        return _context2.abrupt('return', generateUrlsToCrawl(initialUrl, totalRows));
+                        return _context2.abrupt('return', generateUrlsByPagination(initialUrl, totalRows));
 
                     case 8:
                     case 'end':
@@ -94,8 +94,12 @@ var crawl = function () {
             while (1) {
                 switch (_context3.prev = _context3.next) {
                     case 0:
-                        INITIAL_URLS = ['http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=3&firstRow=0&totalRows=1000', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=4&firstRow=0&totalRows=1000', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=3&firstRow=0&totalRows=1000', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=4&firstRow=0&totalRows=1000'];
-                        urls = [], generatedTempUrls = [], tempData = void 0, crawledHtml = [], data = [];
+                        INITIAL_URLS = [
+                        // 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=3&firstRow=0&totalRows=1000',
+                        'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&rentprice=4&firstRow=0&totalRows=1000', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=3&firstRow=0&totalRows=1000'];
+
+                        // 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&rentprice=4&firstRow=0&totalRows=1000'
+                        urls = [], generatedTempUrls = [], tempData = undefined, crawledHtml = [], data = [];
                         i = 0;
 
                     case 3:
@@ -163,9 +167,10 @@ var crawl = function () {
                         data = crawledHtml.map(parseData).reduce(function (acc, x) {
                             return acc.concat(x);
                         }, []);
+                        console.log('Crawling successed!');
                         return _context3.abrupt('return', data);
 
-                    case 30:
+                    case 31:
                     case 'end':
                         return _context3.stop();
                 }
@@ -190,7 +195,7 @@ exports.default = function (robot) {
                 while (1) {
                     switch (_context5.prev = _context5.next) {
                         case 0:
-                            new _cron.CronJob('30 */20 * * * *', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+                            new _cron.CronJob('30 */1 * * * *', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
                                 var newData, oldData, response, isDataExisted, dataToReport;
                                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                                     while (1) {
@@ -263,7 +268,7 @@ var _cron = require('cron');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function generateUrlsToCrawl(initialUrl, totalRows) {
+function generateUrlsByPagination(initialUrl, totalRows) {
     var step = 20,
         urls = [],
         currentRow = 0;
