@@ -13,13 +13,13 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var fetchUrl = function () {
-    var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(url) {
+    var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(url) {
         var res, data;
         return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
-                        res = undefined, data = undefined;
+                        res = void 0, data = void 0;
                         _context.prev = 1;
                         _context.next = 4;
                         return (0, _nodeFetch2.default)(url);
@@ -45,13 +45,14 @@ var fetchUrl = function () {
             }
         }, _callee, this, [[1, 11]]);
     }));
+
     return function fetchUrl(_x) {
-        return ref.apply(this, arguments);
+        return _ref.apply(this, arguments);
     };
 }();
 
 var generateUrls = function () {
-    var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(initialUrl) {
+    var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(initialUrl) {
         var totalRows, data;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
@@ -82,20 +83,21 @@ var generateUrls = function () {
             }
         }, _callee2, this);
     }));
+
     return function generateUrls(_x2) {
-        return ref.apply(this, arguments);
+        return _ref2.apply(this, arguments);
     };
 }();
 
 var crawl = function () {
-    var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+    var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
         var INITIAL_URLS, urls, generatedTempUrls, tempData, crawledHtml, data, i, j;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
             while (1) {
                 switch (_context3.prev = _context3.next) {
                     case 0:
-                        INITIAL_URLS = ['http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&orderType=desc&shType=list&rentprice=0,25000&area=10,&firstRow=20&totalRows=1500', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&orderType=desc&shType=list&rentprice=0,25000&area=10,&firstRow=20&totalRows=1500'];
-                        urls = [], generatedTempUrls = [], tempData = undefined, crawledHtml = [], data = [];
+                        INITIAL_URLS = ['http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&orderType=desc&shType=list&rentprice=0,18000&area=10,&firstRow=20&totalRows=1500', 'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&orderType=desc&shType=list&rentprice=0,18000&area=10,&firstRow=20&totalRows=1500'];
+                        urls = [], generatedTempUrls = [], tempData = void 0, crawledHtml = [], data = [];
                         i = 0;
 
                     case 3:
@@ -173,13 +175,14 @@ var crawl = function () {
             }
         }, _callee3, this);
     }));
+
     return function crawl() {
-        return ref.apply(this, arguments);
+        return _ref3.apply(this, arguments);
     };
 }();
 
 exports.default = function (robot) {
-    var _this2 = this;
+    var _this = this;
 
     var job = {};
     robot.respond(/clear 591/, function (res) {
@@ -196,66 +199,76 @@ exports.default = function (robot) {
         }
     });
     robot.respond(/crawl 591/i, function () {
-        var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(res) {
+        var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(res) {
             return _regenerator2.default.wrap(function _callee5$(_context5) {
                 while (1) {
                     switch (_context5.prev = _context5.next) {
                         case 0:
-                            job = new _cron.CronJob('30 */20 * * * *', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
-                                var newData, oldData, response, isDataExisted, dataToReport;
-                                return _regenerator2.default.wrap(function _callee4$(_context4) {
-                                    while (1) {
-                                        switch (_context4.prev = _context4.next) {
-                                            case 0:
-                                                _context4.next = 2;
-                                                return crawl();
+                            job = new _cron.CronJob({
+                                cronTime: '30 */20 * * * *',
+                                onTick: function () {
+                                    var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+                                        var newData, oldData, response, isDataExisted, dataToReport;
+                                        return _regenerator2.default.wrap(function _callee4$(_context4) {
+                                            while (1) {
+                                                switch (_context4.prev = _context4.next) {
+                                                    case 0:
+                                                        _context4.next = 2;
+                                                        return crawl();
 
-                                            case 2:
-                                                newData = _context4.sent;
-                                                oldData = robot.brain.get('591-data') || [];
-                                                response = '';
-                                                isDataExisted = false;
-                                                dataToReport = [];
+                                                    case 2:
+                                                        newData = _context4.sent;
+                                                        oldData = robot.brain.get('591-data') || [];
+                                                        response = '';
+                                                        isDataExisted = false;
+                                                        dataToReport = [];
 
 
-                                                if (typeof tempData === 'string') {
-                                                    res.reply('Crawling failed...');
-                                                } else {
-                                                    newData.forEach(function (newD) {
-                                                        isDataExisted = oldData.filter(function (oldD) {
-                                                            return newD.href === oldD.href && newD.title === oldD.title;
-                                                        }).length !== 0;
-                                                        if (!isDataExisted) {
-                                                            dataToReport.push(newD);
+                                                        if (typeof tempData === 'string') {
+                                                            res.reply('Crawling failed...');
+                                                        } else {
+                                                            newData.forEach(function (newD) {
+                                                                isDataExisted = oldData.filter(function (oldD) {
+                                                                    return newD.href === oldD.href && newD.title === oldD.title;
+                                                                }).length !== 0;
+                                                                if (!isDataExisted) {
+                                                                    dataToReport.push(newD);
+                                                                }
+                                                            });
+                                                            if (dataToReport.length) {
+                                                                response = 'Update!! (' + new Date().toLocaleString() + ')\n' + dataToReport.map(function (data) {
+                                                                    return data.title + ' \n ' + data.href + '\n=======================\n';
+                                                                }).join('');
+                                                                res.send(response);
+                                                                robot.brain.set('591-data', oldData.concat(dataToReport));
+                                                            }
                                                         }
-                                                    });
-                                                    if (dataToReport.length) {
-                                                        response = 'Update!! (' + new Date().toLocaleString() + ')\n' + dataToReport.map(function (data) {
-                                                            return data.title + ' \n ' + data.href + '\n=======================\n';
-                                                        }).join('');
-                                                        res.send(response);
-                                                        robot.brain.set('591-data', oldData.concat(dataToReport));
-                                                    }
+
+                                                    case 8:
+                                                    case 'end':
+                                                        return _context4.stop();
                                                 }
+                                            }
+                                        }, _callee4, _this);
+                                    }));
 
-                                            case 8:
-                                            case 'end':
-                                                return _context4.stop();
-                                        }
-                                    }
-                                }, _callee4, _this2);
-                            })), null, true);
+                                    return function onTick() {
+                                        return _ref5.apply(this, arguments);
+                                    };
+                                }()
+                            });
+                            job.start();
 
-                        case 1:
+                        case 2:
                         case 'end':
                             return _context5.stop();
                     }
                 }
-            }, _callee5, _this2);
-        })),
-            _this = _this2;
+            }, _callee5, _this);
+        }));
+
         return function (_x3) {
-            return ref.apply(_this, arguments);
+            return _ref4.apply(this, arguments);
         };
     }());
 };

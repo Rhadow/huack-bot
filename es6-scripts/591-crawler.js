@@ -54,8 +54,8 @@ function parseData(htmlString) {
 
 async function crawl() {
     const INITIAL_URLS = [
-        'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&orderType=desc&shType=list&rentprice=0,25000&area=10,&firstRow=20&totalRows=1500',
-        'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&orderType=desc&shType=list&rentprice=0,25000&area=10,&firstRow=20&totalRows=1500'
+        'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=1&orderType=desc&shType=list&rentprice=0,18000&area=10,&firstRow=20&totalRows=1500',
+        'http://rent.591.com.tw/index.php?module=search&action=rslist&is_new_list=1&type=1&searchtype=1&region=1&kind=2&orderType=desc&shType=list&rentprice=0,18000&area=10,&firstRow=20&totalRows=1500'
     ];
     let urls = [],
         generatedTempUrls = [],
@@ -102,7 +102,9 @@ export default function(robot) {
         }
     });
     robot.respond(/crawl 591/i, async (res) => {
-        job = new CronJob('30 */20 * * * *', async () => {
+        job = new CronJob({
+          cronTime: '30 */20 * * * *',
+          onTick: async () => {
             let newData = await crawl(),
                 oldData = robot.brain.get('591-data') || [],
                 response = '',
@@ -126,6 +128,8 @@ export default function(robot) {
                     robot.brain.set('591-data', oldData.concat(dataToReport));
                 }
             }
-        }, null, true);
+          }
+        });
+        job.start();
     });
 };
